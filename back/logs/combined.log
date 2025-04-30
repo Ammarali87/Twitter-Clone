@@ -1,0 +1,18 @@
+{"address":{"alias":"Home","city":"Cairo","details":"123 Main Street","phone":"+201234567890","postalCode":"12345"},"level":"info","message":"try Adding new address","timestamp":"2025-04-06T22:07:57.781Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-06T22:07:57.978Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"alias":"Home","city":"Cairo","details":"123 Main Street","phone":"+201234567890","postalCode":"12345"},"level":"info","message":"try Adding new address","timestamp":"2025-04-06T22:27:49.611Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-06T22:27:49.814Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"alias":"Home","city":"Cairo","details":"123 Main Street","phone":"+201234567890","postalCode":"12345"},"level":"info","message":"try Adding new address","timestamp":"2025-04-07T21:37:40.507Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-07T21:37:40.668Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"alias":"Home","city":"Cairo","details":"123 Main Street","phone":"+201234567890","postalCode":"12345"},"level":"info","message":"Attempting to add new address","timestamp":"2025-04-07T21:40:46.146Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-07T21:40:46.295Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"alias":"Home","city":"Cairo","details":"123 Main Street","phone":"+201234567890","postalCode":"12345"},"level":"info","message":"try Adding new address","timestamp":"2025-04-07T21:49:01.992Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-07T21:49:02.190Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"city":"New York","country":"USA","state":"NY","street":"123 Main Street","zipCode":"10001"},"level":"info","message":"try Adding new address","timestamp":"2025-04-08T22:06:02.962Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-08T22:06:03.105Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"city":"New York","country":"USA","state":"NY","street":"123 Main Street","zipCode":"10001"},"level":"info","message":"try Adding new address","timestamp":"2025-04-08T22:06:48.131Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-08T22:06:48.259Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"city":"New York","country":"USA","state":"NY","street":"1232 Main Street","zipCode":"10001"},"level":"info","message":"try Adding new address","timestamp":"2025-04-08T22:17:00.409Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-08T22:17:00.555Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"address":{"city":"New York","country":"USA","state":"NY","street":"11 Main Street","zipCode":"10001"},"level":"info","message":"try Adding new address","timestamp":"2025-04-08T22:17:08.317Z","userId":"67e32f097c4a8357b93bf0f0"}
+{"level":"info","message":"Address added successfully","timestamp":"2025-04-08T22:17:08.459Z","userId":"67e32f097c4a8357b93bf0f0"}

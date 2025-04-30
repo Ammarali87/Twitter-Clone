@@ -1,0 +1,53 @@
+
+  // in tsconfig.json
+
+// "parserOptions": {
+//   "project": "./tsconfig.json"
+// }
+//  with TS MERN 
+
+
+// {
+//   "extends": [
+//     "airbnb",
+//     "airbnb-typescript",
+//     "prettier",
+//     "plugin:react/recommended",
+//     "plugin:@typescript-eslint/recommended"
+//   ],
+//   "plugins": ["prettier", "react", "@typescript-eslint"],
+//   "parser": "@typescript-eslint/parser",
+//   "parserOptions": {
+//     "project": "./tsconfig.json" 
+//   },
+//   "rules": {
+//     "prettier/prettier": "error",
+//     "react/react-in-jsx-scope": "off", 
+//     "import/prefer-default-export": "off", 
+//     "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+//     "react/prop-types": "off"
+//   }
+// }
+
+
+
+{
+    "extends": ["airbnb", "prettier", "plugin:node/recommended"],
+    "plugins": ["prettier"],
+    "rules": {
+      // "prettier/prettier": "error",
+      "spaced-comment": "off",
+      "no-console": "off",
+      "consistent-return": "off",
+      "func-names": "off",
+      "object-shorthand": "off",
+      "no-process-exit": "off",
+      "no-param-reassign": "off",
+      "no-return-await": "off",
+      "no-underscore-dangle": "off",
+      "class-methods-use-this": "off",
+      "no-undef": "warn",
+      "prefer-destructuring": ["error", { "object": true, "array": false }],
+      "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
+    }
+}
