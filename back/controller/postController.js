@@ -2,7 +2,10 @@ import Notification from "../models/notification.model.js";
 import Post from "../models/post.model.js";
 import User from "../models/user.model.js";
 import { v2 as cloudinary } from "cloudinary";
-  
+
+import mongoose from "mongoose";
+// find({ user: user._id })
+// find({ user: { $in: user.following } })
 
 export const createPost = async (req, res) => {
 	try {
@@ -97,8 +100,10 @@ export const commentOnPost = async (req, res) => {
 	}
 };
 
- 
+  
 // const { id: postId } = req.params;
+  // .json({ likes: post.likes }); 
+
 export const likeUnlikePost = async (req, res) => {
 	try {
 		const { postId } = req.params;
@@ -121,8 +126,7 @@ export const likeUnlikePost = async (req, res) => {
 			await post.save();
 			await user.save();
 
-			return res.status(200).json({ likes: post.likes });
-		} else {
+		} else {  
 			// ❤️ إضافة إعجاب
 			post.likes.push(userId);
 			user.likedPosts.push(postId);
@@ -135,11 +139,11 @@ export const likeUnlikePost = async (req, res) => {
 				from: userId,
 				to: post.user,
 				type: "like",
-			});
-			await notification.save();
+			});  
+				await notification.save();
 
+			}        
 			return res.status(200).json({ likes: post.likes });
-		}
 	} catch (error) {
 		console.error("Error in likeUnlikePost controller: ", error);
 		res.status(500).json({ error: "Internal server error" });
@@ -147,41 +151,7 @@ export const likeUnlikePost = async (req, res) => {
 };
 
 
-// export const likeUnlikePost = async (req, res) => {
-// 	try {
-	
-// 		const userLikedPost = post.likes.includes(userId);
-// 		if (userLikedPost) {
-// 			// Unlike post
-// 			await Post.updateOne({ _id: postId }, { $pull: { likes: userId } });
-// 			await User.updateOne({ _id: userId }, { $pull: { likedPosts: postId } });
-
-			 // remove
-// 			const updatedLikes = 
-// 			 post.likes.filter((id) => id.toString() !== userId.toString());
-// 			res.status(200).json(updatedLikes);
-// 		} else {
-// 			// Like post
-// 			post.likes.push(userId);
-// 			await User.updateOne({ _id: userId }, { $push: { likedPosts: postId } });
-// 			await post.save();
-
-// 			const notification = new Notification({
-// 				from: userId,
-// 				to: post.user,
-// 				type: "like",
-// 			});
-// 			await notification.save();
-
-// 			const updatedLikes = post.likes;
-// 			res.status(200).json(updatedLikes);
-// 		}
-// 	} catch (error) {
-// 		console.log("Error in likeUnlikePost controller: ", error);
-// 		res.status(500).json({ error: "Internal server error" });
-// 	}
-// };
-
+ 
 
 export const getAllPosts = async (req, res) => {
 	try {
@@ -206,25 +176,26 @@ export const getAllPosts = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };   
-				// .sort("-careateAt")
-               // user.likedPosts
-	export const getLikedPosts = async (req, res) => {
+
+export const getLikedPosts = async (req, res) => {
 	const userId = req.params.id;
+     // optinal 
+	if (!mongoose.Types.ObjectId.isValid(userId)) {
+		return res.status(400).json({ error: "Invalid user ID" });
+	}
+
 	try {
 		const user = await User.findById(userId);
 		if (!user) return res.status(404).json({ error: "User not found" });
-
-		const likesposts = await Post.find({_id:{$in:user.likesposts}})
-
+           
+		// optinal   
+		   if (!user.likedPosts || user.likedPosts.length === 0) {
+			return res.status(200).json([]);
+		}
+                   // _id search in all ids for sepecific user.likeposts
 		const likedPosts = await Post.find({ _id: { $in: user.likedPosts } })
-			.populate({
-				path: "user",
-				select: "-password",
-			})
-			.populate({
-				path: "comments.user",
-				select: "-password",
-			});
+			.populate({ path: "user", select: "-password" })
+			.populate({ path: "comments.user", select: "-password" });
 
 		res.status(200).json(likedPosts);
 	} catch (error) {
@@ -232,6 +203,7 @@ export const getAllPosts = async (req, res) => {
 		res.status(500).json({ error: "Internal server error" });
 	}
 };
+	
 
 // const feedPosts = await Post.find({ user: { $in: following } })
     // user.following
@@ -243,7 +215,7 @@ export const getFollowingPosts = async (req, res) => {
 		
 		const feedPosts = await Post.find({ user: { $in: user.following } })
 			.sort({ createdAt: -1 })
-			.populate({
+			.populate({   
 				path: "user",
 				select: "-password",
 			})
@@ -259,6 +231,7 @@ export const getFollowingPosts = async (req, res) => {
 	}
 };
 
+// find({user:user._id})
     // user._id
 export const getUserPosts = async (req, res) => {
 	try {      
