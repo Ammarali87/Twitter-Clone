@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   plugins: [
     react(), 
-    tailwindcss(), // This plugin integrates Tailwind CSS with Vite
+    tailwindcss(), 
   ],
   server: {
     proxy: {
