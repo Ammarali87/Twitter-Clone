@@ -10,7 +10,8 @@ import { toast } from "react-hot-toast";
 
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
-
+//    play with post props and authUser   
+// queryKey  , mutationFc:async()=>{}  , onSuccess: 
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
 	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
@@ -19,7 +20,7 @@ const Post = ({ post }) => {
 	const isLiked = post.likes.includes(authUser._id);
 
 	const isMyPost = authUser._id === post.user._id;
-
+                       // user._id = user._id
 	const formattedDate = formatPostDate(post.createdAt);
 
 	const { mutate: deletePost, isPending: isDeleting } = useMutation({
@@ -41,7 +42,7 @@ const Post = ({ post }) => {
 		onSuccess: () => {
 			toast.success("Post deleted successfully");
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
-		},
+		},  
 	});
 
 	const { mutate: likePost, isPending: isLiking } = useMutation({
@@ -49,7 +50,7 @@ const Post = ({ post }) => {
 			try {
 				const res = await fetch(`/api/posts/like/${post._id}`, {
 					method: "POST",
-				});
+				});  
 				const data = await res.json();
 				if (!res.ok) {
 					throw new Error(data.error || "Something went wrong");
@@ -63,12 +64,14 @@ const Post = ({ post }) => {
 			// this is not the best UX, bc it will refetch all posts
 			// queryClient.invalidateQueries({ queryKey: ["posts"] });
 
-			// instead, update the cache directly for that post
+			// instead, update the cache directly for that post    
+			      // he did not use {} in setQueryDate (["posts"],(oldData)=>{})
+					// 3 retrun 
 			queryClient.setQueryData(["posts"], (oldData) => {
 				return oldData.map((p) => {
 					if (p._id === post._id) {
 						return { ...p, likes: updatedLikes };
-					}
+					}  
 					return p;
 				});
 			});
@@ -156,7 +159,8 @@ const Post = ({ post }) => {
 						{post.img && (
 							<img
 								src={post.img}
-								className='h-80 object-contain rounded-lg border border-gray-700'
+								className='h-80 object-contain 
+								rounded-lg border border-gray-700'
 								alt=''
 							/>
 						)}
@@ -170,7 +174,7 @@ const Post = ({ post }) => {
 								<FaRegComment className='w-4 h-4  text-slate-500 group-hover:text-sky-400' />
 								<span className='text-sm text-slate-500 group-hover:text-sky-400'>
 									{post.comments.length}
-								</span>
+								</span>  
 							</div>
 							{/* We're using Modal Component from DaisyUI */}
 							<dialog id={`comments_modal${post._id}`} className='modal border-none outline-none'>
