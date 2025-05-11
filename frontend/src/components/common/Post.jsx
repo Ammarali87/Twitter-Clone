@@ -7,14 +7,37 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
+ import axios from "axios";
 
 import LoadingSpinner from "./LoadingSpinner";
 import { formatPostDate } from "../../utils/date";
 //    play with post props and authUser   
-// queryKey  , mutationFc:async()=>{}  , onSuccess: 
+// queryKey,func   but mutate fun+success, mutationFc:async()=>{}  , onSuccess: 
+     //    can add () to useQuery vars  like refetch  , deletePost
+//    useQuery isFetching    but useMutation { mutate: , isPending: isDeleting } = useMutation({
+//  use throw with catch 
+
+
+
+// retrun out side const res = await axios.post(``); retrun res.data
+
+
+
+    //   with delete and other use queryClient.invalidateQueries
+//   with update use setQueryData	queryClient.setQueryData(["posts"], (oldData) => {
+			// 	return oldData.map((p) => {
+			// 		if (p._id === post._id) {
+			// 			return { ...p, likes: updatedLikes };
+			// 		}  
+			// 		return p;
+			// 	});
+			// });
+
 const Post = ({ post }) => {
 	const [comment, setComment] = useState("");
 	const { data: authUser } = useQuery({ queryKey: ["authUser"] });
+	// ✅ This assumes you’ve set a default queryFn globally, otherwise it will throw an error
+
 	const queryClient = useQueryClient();
 	const postOwner = post.user;
 	const isLiked = post.likes.includes(authUser._id);
@@ -25,24 +48,21 @@ const Post = ({ post }) => {
 
 	const { mutate: deletePost, isPending: isDeleting } = useMutation({
 		mutationFn: async () => {
-			try {
-				const res = await fetch(`/api/posts/${post._id}`, {
-					method: "DELETE",
-				});
-				const data = await res.json();
-
-				if (!res.ok) {
-					throw new Error(data.error || "Something went wrong");
-				}
-				return data;
-			} catch (error) {
-				throw new Error(error);
-			}
+		try {
+			const res = await axios.delete(`/api/posts/${post._id}`);
+			// Axios automatically throws on non-2xx responses, so no need to manually check res.ok
+			return res.data;
+		} catch (error) {
+			throw new Error(error.response?.data?.error || "Something went wrong");
+		}  
 		},
 		onSuccess: () => {
 			toast.success("Post deleted successfully");
 			queryClient.invalidateQueries({ queryKey: ["posts"] });
-		},  
+			// Use this after mutating data (deleting, adding, or updating a post)
+			//  so your UI stays in sync with the server.
+			// make refresh
+		},    
 	});
 
 	const { mutate: likePost, isPending: isLiking } = useMutation({
@@ -83,23 +103,22 @@ const Post = ({ post }) => {
 
 	const { mutate: commentPost, isPending: isCommenting } = useMutation({
 		mutationFn: async () => {
-			try {
-				const res = await fetch(`/api/posts/comment/${post._id}`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({ text: comment }),
-				});
-				const data = await res.json();
+			// try {
+			// 	const res = await fetch(`/api/posts/comment/${post._id}`, {
+			// 		method: "POST",
+			// 		headers: {
+			// 			"Content-Type": "application/json",
+			// 		},
+			// 		body: JSON.stringify({ text: comment }),
+		try {
+			const res = await axios.post(`/api/posts/comment/${post._id}`, {
+				text: comment,
+			});    
+			return res.data;
+		} catch (error) {
+			throw new Error(error.response?.data?.error || "Something went wrong");
+		}
 
-				if (!res.ok) {
-					throw new Error(data.error || "Something went wrong");
-				}
-				return data;
-			} catch (error) {
-				throw new Error(error);
-			}
 		},
 		onSuccess: () => {
 			toast.success("Comment posted successfully");
@@ -119,10 +138,10 @@ const Post = ({ post }) => {
 		e.preventDefault();
 		if (isCommenting) return;
 		commentPost();
-	};
-
+	};   
+ 
 	const handleLikePost = () => {
-		if (isLiking) return;
+		if (isLiking) return;   
 		likePost();
 	};
 
@@ -132,7 +151,7 @@ const Post = ({ post }) => {
 				<div className='avatar'>
 					<Link to={`/profile/${postOwner.username}`} className='w-8 rounded-full overflow-hidden'>
 						<img src={postOwner.profileImg || "/avatar-placeholder.png"} />
-					</Link>
+					</Link> 
 				</div>
 				<div className='flex flex-col flex-1'>
 					<div className='flex gap-2 items-center'>
@@ -143,7 +162,7 @@ const Post = ({ post }) => {
 							<Link to={`/profile/${postOwner.username}`}>@{postOwner.username}</Link>
 							<span>·</span>
 							<span>{formattedDate}</span>
-						</span>
+						</span> 
 						{isMyPost && (
 							<span className='flex justify-end flex-1'>
 								{!isDeleting && (

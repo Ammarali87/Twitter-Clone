@@ -3,7 +3,24 @@ import PostSkeleton from "../skeletons/PostSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
+//  { ( || ) && () }
+	// store fun in side const  and use it as var 
+	// const POST_ENDPOINT = getPostEndpoint();
+	// useEffect(() => {
+	// 	refetch();   
+	// }, [feedType, refetch, username]);
+
+     
+	// data: posts,
+	// 	isLoading,
+	// 	refetch,
+	// 	isRefetching,
+	// } = useQuery({  
+	// 	queryKey: ["posts"],
+	// 	queryFn: async () => {
+
 const Posts = ({ feedType, username, userId }) => {
+		// 🎯 Mission: Choose the right endpoint based on the feed type!
 	const getPostEndpoint = () => {
 		switch (feedType) {
 			case "forYou":
@@ -16,17 +33,17 @@ const Posts = ({ feedType, username, userId }) => {
 				return `/api/posts/likes/${userId}`;
 			default:
 				return "/api/posts/all";
-		}
+		}  
 	};
 
-	const POST_ENDPOINT = getPostEndpoint();
+ 	const POST_ENDPOINT = getPostEndpoint();
 
 	const {
 		data: posts,
 		isLoading,
 		refetch,
 		isRefetching,
-	} = useQuery({
+	} = useQuery({  
 		queryKey: ["posts"],
 		queryFn: async () => {
 			try {
@@ -56,10 +73,10 @@ const Posts = ({ feedType, username, userId }) => {
 					<PostSkeleton />
 					<PostSkeleton />
 				</div>
-			)}
-			{!isLoading && !isRefetching && posts?.length === 0 && (
+			)}        
+			{posts?.length === 0 && (
 				<p className='text-center my-4'>No posts in this tab. Switch 👻</p>
-			)}
+			)}      
 			{!isLoading && !isRefetching && posts && (
 				<div>
 					{posts.map((post) => (

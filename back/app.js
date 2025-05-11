@@ -14,19 +14,10 @@ import csrf from "csurf"; // Add this import
 import errorMiddleware from './middleware/errorMiddleware.js';
 import { connect } from './config/mongo.js';
 import authRoutes from './routes/authRoute.js';
-import storeRoutes from './routes/store.js';
-import brandRoute from './routes/brandRoute.js';
-import productRoutes from './routes/productRoute.js';
-import subCategoryRoute from './routes/subCategoryRoute.js';
 import ApiError from './utils/ApiError.js';
-import orderRoutes from './routes/orderRoute.js';
 import { protect } from './controller/authController.js';
 import userRoutes from './routes/userRoute.js';
 import profileRoutes from './routes/profileRoute.js';
-import addressRoutes from './routes/addressRoute.js';
-import cartRoutes from './routes/cartRoute.js';
-import reviewRoutes from './routes/reviewRoute.js';
-import couponRoutes from './routes/couponRoute.js';
 
  
 
@@ -36,7 +27,6 @@ dotenv.config();
  
 const app = express();
 
-// Security Middleware
  // protect headers
 // app.use(helmet());
 // Add before routes
@@ -54,7 +44,7 @@ app.use(cors({
 }));
 
 app.options('*', cors());
-app.use(cookieParser());
+// app.use(cookieParser());
 app.use(cookieParser(process.env.COOKIE_SECRET || 'your-secret-key'));
 const csrfProtection = csrf({ cookie: true });
  
@@ -144,26 +134,15 @@ const apiRouter = express.Router();
 app.use("/api/v1", apiRouter);
 
 // Updated routes without /api/v1 prefix
-apiRouter.use("/products", productRoutes);   
-apiRouter.use('/subcategories', subCategoryRoute);
-apiRouter.use('/categories/:categoryId/subcategories', subCategoryRoute);
-apiRouter.use("/brands", brandRoute);
 apiRouter.use("/auth", authRoutes);   
-apiRouter.use('/reviews', reviewRoutes);
-apiRouter.use('/products/:productId/reviews', reviewRoutes);
-apiRouter.use("/cart", cartRoutes);   
 apiRouter.use("/", storeRoutes);   
-apiRouter.use('/products/:productId/reviews', reviewRoutes);
 
 apiRouter.use(protect); // All routes after this require authentication
 // app.use(csrfProtection);
 
 
-apiRouter.use('/orders', orderRoutes);
-apiRouter.use('/coupons', couponRoutes);
 apiRouter.use('/users', userRoutes); // admin controller
 apiRouter.use('/profile', profileRoutes); // user controller
-apiRouter.use('/addresses', addressRoutes);
 
 
 // Handle 404 routes
