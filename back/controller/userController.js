@@ -3,19 +3,11 @@ import sharp from 'sharp';
 import bcrypt from 'bcryptjs';
 import asyncHandler from 'express-async-handler';
 
-import * as factory from './handlersFactory.js';
-import ApiError from '../utils/ApiError.js';
-import { User } from '../models/userModel.js';
-
+ import ApiError from '../utils/ApiError.js';
+import User from "../models/user.model.js";
 
 //  user for admin  ,  profile for client user
-
-// Use factory functions for standard CRUD operations
-export const getAllUsers = factory.getAll(User, 'User');
-export const getUser = factory.getOne(User);
-export const deleteUser = factory.deleteOne(User);
-export const createUser = factory.createOne(User);
-
+ 
 
 export const updateUser = asyncHandler(async (req, res, next) => {
   const document = await User.findByIdAndUpdate(

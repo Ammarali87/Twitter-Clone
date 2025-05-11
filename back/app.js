@@ -13,12 +13,12 @@ import csrf from "csurf"; // Add this import
 
 import errorMiddleware from './middleware/errorMiddleware.js';
 import { connect } from './config/mongo.js';
-import authRoutes from './routes/authRoute.js';
 import ApiError from './utils/ApiError.js';
 import { protect } from './controller/authController.js';
-import userRoutes from './routes/userRoute.js';
-import profileRoutes from './routes/profileRoute.js';
 
+import authRoutes from './routes2/auth.route.js';
+import userRoutes from './routes2/user.route.js';
+import profileRoutes from './routes2/user.route.js'; // Assuming this exists
  
 
 // http://localhost:3000/api/v1/csrf-token
@@ -129,20 +129,18 @@ app.get('/health', (req, res) => {
 });
 
 
+
 // Routes
 const apiRouter = express.Router();
 app.use("/api/v1", apiRouter);
 
 // Updated routes without /api/v1 prefix
 apiRouter.use("/auth", authRoutes);   
-apiRouter.use("/", storeRoutes);   
 
 apiRouter.use(protect); // All routes after this require authentication
-// app.use(csrfProtection);
+apiRouter.use('/users', userRoutes);
+apiRouter.use('/profile', profileRoutes);
 
-
-apiRouter.use('/users', userRoutes); // admin controller
-apiRouter.use('/profile', profileRoutes); // user controller
 
 
 // Handle 404 routes

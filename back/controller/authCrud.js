@@ -1,6 +1,5 @@
 import { sanitizeUser } from '../utils/sanitizeData.js';  // Fixed import path with .js extension
-import { User } from '../models/userModel.js';
-
+import { User } from '../models/user.model.js';
 
 
 // Get all users
